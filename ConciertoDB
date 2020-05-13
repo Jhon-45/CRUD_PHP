@@ -1,0 +1,51 @@
+﻿CREATE TABLE Boleto (
+Bol_id INTEGER not null,
+Bol_nombre VARCHAR (40) NOT NULL,
+PRIMARY KEY(Bol_id) 
+);
+
+INSERT INTO Boleto Values (1010, 'General');
+INSERT INTO Boleto Values (1020, 'Palco');
+INSERT INTO Boleto Values (1030, 'VIP');
+
+CREATE TABLE Cliente (
+Bol_id INTEGER not null,
+Cli_id INTEGER not null,
+Cli_nombre VARCHAR (40) NOT NULL,
+Cli_fecha DATE NOT NULL,
+Cli_celular VARCHAR (10) NOT NULL,
+Cli_correo VARCHAR (50) NOT NULL,
+PRIMARY KEY(Cli_id),
+FOREIGN KEY (Bol_id)  REFERENCES Boleto(Bol_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+INSERT INTO Cliente VALUES(1010,1094285683,'Juan Camilo Mesa Chaparro','1995-07-10', '3191660443','juanC@unipamplona.edu.co');
+INSERT INTO Cliente VALUES(1020,1198935683,'Maria Camila Lopez parro','2001-02-11', '3207890443','MariaLc@unipamplona.edu.co');
+INSERT INTO Cliente VALUES(1030,1124893683,'Kelly Johana Perez Correa','1997-03-10', '3101665460','KJgutiC@unipamplona.edu.co');
+
+CREATE TABLE Funcion (
+Bol_id INTEGER not null,
+Fun_id INTEGER NOT NULL,
+Fun_nombre VARCHAR (40) NOT NULL,
+Fun_precio FLOAT NOT NULL,
+Fun_cant_pers INTEGER not null,
+Fun_fecha_Publ DATE NULL,
+PRIMARY KEY(Bol_id),
+FOREIGN KEY (Bol_id)  REFERENCES Boleto(Bol_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+INSERT INTO Funcion Values (1010, 2030, 'Camp rock', 502000, 3000, '2019-05-11' );
+INSERT INTO Funcion Values (1030, 2040, 'Vivir la vida', 820000, 5000, '2001-05-11' );
+
+
+CREATE TABLE Lugar (
+Fun_id INTEGER NOT NULL,
+Cli_id INTEGER not null,
+PRIMARY KEY(Fun_id, Cli_id),
+FOREIGN KEY (Fun_id)  REFERENCES Funcion(Fun_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+FOREIGN KEY (Cli_id)  REFERENCES Cliente(Cli_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+INSERT INTO Lugar Values (2030, 1094285683);
+INSERT INTO Lugar Values (2040, 1198935683);
+
